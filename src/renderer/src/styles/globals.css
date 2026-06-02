@@ -2,6 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============ 主题变量（RGB 通道值，配合 tailwind rgb(var(--x) / <alpha-value>)）============ */
+:root,
+[data-theme='dark'] {
+  --c-bg: 14 16 19;
+  --c-sidebar: 19 22 28;
+  --c-titlebar: 21 24 30;
+  --c-card: 26 30 37;
+  --c-card2: 32 37 46;
+  --c-field: 14 16 19;
+  --c-borderc: 38 43 52;
+  --c-borderSoft: 32 37 46;
+  --c-brand: 45 212 167;
+  --c-brandInk: 6 35 27;
+  --c-ink1: 236 238 242;
+  --c-ink2: 155 164 179;
+  --c-ink3: 98 107 122;
+  --c-err: 255 92 114;
+  --c-scrollbar: 38 43 52;
+  --c-scrollbar-hover: 58 65 80;
+}
+
+[data-theme='light'] {
+  --c-bg: 245 247 250;
+  --c-sidebar: 235 238 242;
+  --c-titlebar: 232 235 240;
+  --c-card: 255 255 255;
+  --c-card2: 240 242 246;
+  --c-field: 255 255 255;
+  --c-borderc: 213 218 226;
+  --c-borderSoft: 226 230 236;
+  --c-brand: 22 190 150;
+  --c-brandInk: 255 255 255;
+  --c-ink1: 26 30 37;
+  --c-ink2: 90 100 112;
+  --c-ink3: 144 154 168;
+  --c-err: 224 52 74;
+  --c-scrollbar: 200 206 214;
+  --c-scrollbar-hover: 170 178 188;
+}
+
 @layer base {
   html, body, #root {
     height: 100%;
@@ -50,8 +90,8 @@
   .gm-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
   .gm-scroll::-webkit-scrollbar-track { background: transparent; }
   .gm-scroll::-webkit-scrollbar-thumb {
-    background: #262B34;
+    background: rgb(var(--c-scrollbar));
     border-radius: 5px;
   }
-  .gm-scroll::-webkit-scrollbar-thumb:hover { background: #3a4150; }
+  .gm-scroll::-webkit-scrollbar-thumb:hover { background: rgb(var(--c-scrollbar-hover)); }
 }

@@ -16,7 +16,7 @@
     "preview": "node scripts/launch.cjs electron-vite preview",
     "release": "electron-vite build && electron-builder --publish always",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
-    "icons:generate": "electron-icon-builder --input=resources/icon.svg --output=resources --flatten",
+    "icons:generate": "node scripts/generate-icons.cjs",
     "postinstall": "echo \"提示：首次打包前请跑 npm run icons:generate\""
   },
   "dependencies": {
@@ -24,6 +24,7 @@
     "electron-updater": "^6.2.1"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^20.11.30",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",

@@ -20,12 +20,14 @@ interface GmStore {
   addLog: (log: Omit<ExecutionLog, 'id'>) => void
   clearLogs: () => void
   setSearch: (keyword: string) => void
+  /** 启动还原日志面板显隐（不写回持久化）。 */
+  setLogVisible: (visible: boolean) => void
   toggleLog: () => void
 }
 
 let m_logSeq = 1
 
-export const useGmStore = create<GmStore>((set) => ({
+export const useGmStore = create<GmStore>((set, get) => ({
   commands: [],
   executionLogs: [],
   searchKeyword: '',
@@ -35,5 +37,10 @@ export const useGmStore = create<GmStore>((set) => ({
     set((s) => ({ executionLogs: [{ id: m_logSeq++, ...log }, ...s.executionLogs] })),
   clearLogs: () => set({ executionLogs: [] }),
   setSearch: (searchKeyword) => set({ searchKeyword }),
-  toggleLog: () => set((s) => ({ logVisible: !s.logVisible }))
+  setLogVisible: (logVisible) => set({ logVisible }),
+  toggleLog: () => {
+    const next = !get().logVisible
+    set({ logVisible: next })
+    void window.gm.setSetting('logVisible', next)
+  }
 }))

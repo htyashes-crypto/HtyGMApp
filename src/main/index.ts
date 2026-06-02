@@ -61,6 +61,8 @@ async function readDiscoveryInstances(): Promise<Array<Record<string, unknown>>>
 interface AppSettings {
   windowBounds?: { width: number; height: number; x?: number; y?: number }
   lastConnection?: { host: string; port: number; token: string }
+  theme?: 'dark' | 'light'
+  logVisible?: boolean
 }
 
 const store = new Store<AppSettings>({

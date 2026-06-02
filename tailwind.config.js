@@ -4,20 +4,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: '#0E1013',
-        sidebar: '#13161C',
-        titlebar: '#15181E',
-        card: '#1A1E25',
-        card2: '#20252E',
-        field: '#0E1013',
-        borderc: '#262B34',
-        borderSoft: '#20252E',
-        brand: '#2DD4A7',
-        brandInk: '#06231B',
-        ink1: '#ECEEF2',
-        ink2: '#9BA4B3',
-        ink3: '#626B7A',
-        err: '#FF5C72'
+        bg: 'rgb(var(--c-bg) / <alpha-value>)',
+        sidebar: 'rgb(var(--c-sidebar) / <alpha-value>)',
+        titlebar: 'rgb(var(--c-titlebar) / <alpha-value>)',
+        card: 'rgb(var(--c-card) / <alpha-value>)',
+        card2: 'rgb(var(--c-card2) / <alpha-value>)',
+        field: 'rgb(var(--c-field) / <alpha-value>)',
+        borderc: 'rgb(var(--c-borderc) / <alpha-value>)',
+        borderSoft: 'rgb(var(--c-borderSoft) / <alpha-value>)',
+        brand: 'rgb(var(--c-brand) / <alpha-value>)',
+        brandInk: 'rgb(var(--c-brandInk) / <alpha-value>)',
+        ink1: 'rgb(var(--c-ink1) / <alpha-value>)',
+        ink2: 'rgb(var(--c-ink2) / <alpha-value>)',
+        ink3: 'rgb(var(--c-ink3) / <alpha-value>)',
+        err: 'rgb(var(--c-err) / <alpha-value>)'
       },
       fontFamily: {
         ui: ['"Segoe UI"', '"Microsoft YaHei"', '"PingFang SC"', 'sans-serif'],

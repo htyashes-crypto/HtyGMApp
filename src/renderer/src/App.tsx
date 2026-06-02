@@ -7,6 +7,7 @@ import { StatusBar } from './components/StatusBar'
 import { ToastContainer } from './components/ToastContainer'
 import { UpdateModal } from './components/UpdateModal'
 import { useUpdateStore, type UpdateInfo, type UpdateProgress } from './stores/updateStore'
+import { useThemeStore, type ThemeMode } from './stores/themeStore'
 import { useKeyboardShortcuts } from './components/useKeyboardShortcuts'
 import { useConnectionStore } from './stores/connectionStore'
 import { useGmStore } from './stores/gmStore'
@@ -49,6 +50,12 @@ export function App(): JSX.Element {
   useEffect(() => {
     let cancelled = false
     void (async () => {
+      // 还原主题（白天/黑夜）与日志面板显隐（持久化在主进程 settings）
+      const savedTheme = (await window.gm.getSetting('theme')) as ThemeMode | undefined
+      useThemeStore.getState().initTheme(savedTheme === 'light' ? 'light' : 'dark')
+      const savedLogVisible = await window.gm.getSetting('logVisible')
+      if (typeof savedLogVisible === 'boolean') useGmStore.getState().setLogVisible(savedLogVisible)
+
       const last = (await window.gm.getSetting('lastConnection')) as
         | { host?: string; port?: number; token?: string }
         | undefined

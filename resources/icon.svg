@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1A1E25"/>
+      <stop offset="100%" stop-color="#0E1013"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 圆角方形底(深色面板) -->
+  <rect width="512" height="512" rx="96" ry="96" fill="url(#bg)"/>
+
+  <!-- 角标薄荷绿点(呼应"已连接"指示) -->
+  <circle cx="396" cy="116" r="36" fill="#2DD4A7" stroke="#06231B" stroke-width="6"/>
+
+  <!-- 主体字母 G -->
+  <text x="256" y="356" font-family="'Segoe UI', 'PingFang SC', 'SF Pro Display', sans-serif"
+        font-size="320" font-weight="800" text-anchor="middle" fill="#2DD4A7"
+        letter-spacing="-8">G</text>
+
+  <!-- 底部装饰:三个方块象征 GM 命令行 -->
+  <g transform="translate(178, 432)">
+    <rect width="44" height="14" rx="4" fill="#ECEEF2" opacity="0.95"/>
+    <rect x="56" width="44" height="14" rx="4" fill="#9BA4B3" opacity="0.7"/>
+    <rect x="112" width="44" height="14" rx="4" fill="#2DD4A7" opacity="0.9"/>
+  </g>
+</svg>

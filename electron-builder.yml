@@ -1,0 +1,53 @@
+appId: com.actframework.gm-app
+productName: GMApp
+directories:
+  buildResources: resources
+  output: dist
+files:
+  - out/**/*
+  - package.json
+  - "!**/*.{md,map,ts}"
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  shortcutName: GMApp
+  uninstallDisplayName: GMApp ${version}
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  artifactName: GMApp-Setup-${version}-${arch}.${ext}
+
+portable:
+  artifactName: GMApp-Portable-${version}-${arch}.${ext}
+
+mac:
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+  category: public.app-category.developer-tools
+  artifactName: GMApp-${version}-${arch}.${ext}
+
+dmg:
+  title: GMApp ${version}
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications
+
+# 自更新仓库（GitHub Releases）；electron-updater 据此拉取更新。
+publish:
+  provider: github
+  owner: htyashes-crypto
+  repo: HtyGMApp
+  releaseType: release

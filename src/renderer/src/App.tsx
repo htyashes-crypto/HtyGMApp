@@ -231,6 +231,16 @@ export function App(): JSX.Element {
           gm.setCommands(data.commands ?? [])
           toast.info('命令清单已就绪', `共 ${data.commands?.length ?? 0} 条命令`)
         },
+        onCommandListBegin: (total) => {
+          gm.beginCommandLoad(total)
+        },
+        onCommandListChunk: (commands) => {
+          gm.appendCommands(commands)
+        },
+        onCommandListEnd: () => {
+          gm.endCommandLoad()
+          toast.info('命令清单已就绪', `共 ${useGmStore.getState().commands.length} 条命令`)
+        },
         onCommandResult: (data) => {
           const meta = useGmStore.getState().commands.find((c) => c.commandId === data.commandId)
           const name = meta?.displayName ?? data.commandId

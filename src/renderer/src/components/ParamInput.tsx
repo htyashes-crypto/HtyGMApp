@@ -66,9 +66,9 @@ function renderControl(
           value={value}
           onChange={(e) => onChange(e.target.value)}
         >
-          {(meta.enumOptions ?? []).map((opt) => (
+          {(meta.enumOptions ?? []).map((opt, i) => (
             <option key={opt} value={opt}>
-              {opt}
+              {meta.enumDisplayNames?.[i] || opt}
             </option>
           ))}
         </select>

@@ -11,6 +11,9 @@ export const MsgType = {
   // S → C
   AuthResult: 'auth-result',
   CommandList: 'command-list',
+  CommandListBegin: 'command-list-begin',
+  CommandListChunk: 'command-list-chunk',
+  CommandListEnd: 'command-list-end',
   CommandResult: 'command-result',
   Pong: 'pong',
   Error: 'error'
@@ -31,6 +34,10 @@ export interface GmParameterMeta {
   type: GmParamType
   tip?: string
   enumOptions?: string[]
+  /** 与 enumOptions 一一对齐的显示名（可空）；非空时下拉显示它、value 仍用 enumOptions 实际值。 */
+  enumDisplayNames?: string[]
+  /** 枚举是否映射为整数：true 时仍下拉选择，但回传 args[].type 用 'Int'（enumOptions 为整数字符串），由服务端按整数执行。 */
+  enumAsInt?: boolean
   defaultValue?: string
 }
 
@@ -70,6 +77,10 @@ export interface DiscoveryInfo {
 export interface AuthData { token: string }
 export interface AuthResultData { ok: boolean; serverVersion?: string; reason?: string }
 export interface CommandListData { commands: GmCommandMeta[] }
+/** command-list-begin：命令总数，用于显示初始化进度。 */
+export interface CommandListBeginData { total: number }
+/** command-list-chunk：一批命令 + 本批起始索引。 */
+export interface CommandListChunkData { commands: GmCommandMeta[]; index: number }
 export interface ExecuteCommandData { commandId: string; args: GmArgValue[] }
 export interface HeartbeatData { ts: number }
 export interface ErrorData { code: string; message: string }

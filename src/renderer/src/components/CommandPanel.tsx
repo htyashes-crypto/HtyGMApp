@@ -19,6 +19,9 @@ export function CommandPanel({ onRefresh, onExecute }: CommandPanelProps): JSX.E
   const setSearch = useGmStore((s) => s.setSearch)
   const logVisible = useGmStore((s) => s.logVisible)
   const toggleLog = useGmStore((s) => s.toggleLog)
+  const commandsLoading = useGmStore((s) => s.commandsLoading)
+  const loadTotal = useGmStore((s) => s.loadTotal)
+  const loadReceived = useGmStore((s) => s.loadReceived)
   const state = useConnectionStore((s) => s.state)
 
   const canExecute = state === ConnectionState.Ready
@@ -89,11 +92,27 @@ export function CommandPanel({ onRefresh, onExecute }: CommandPanelProps): JSX.E
 
       {/* 命令分组列表 */}
       <div className="flex-1 overflow-y-auto gm-scroll px-[24px] pb-4">
-        {commands.length === 0 ? (
+        {commandsLoading && (
+          <div className="pt-4 pb-1">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-ink2 text-2xs font-semibold">正在加载命令清单…</span>
+              <span className="text-ink3 text-2xs font-mono">
+                {loadReceived}/{loadTotal}
+              </span>
+            </div>
+            <div className="h-1.5 rounded-full bg-card2 overflow-hidden">
+              <div
+                className="h-full bg-brand transition-[width] duration-150"
+                style={{ width: `${loadTotal > 0 ? Math.round((loadReceived / loadTotal) * 100) : 0}%` }}
+              />
+            </div>
+          </div>
+        )}
+        {commands.length === 0 && !commandsLoading ? (
           <div className="text-ink3 text-xs py-10 text-center">
             {canExecute ? '该实例未注册任何 GM 命令。' : '连接到游戏实例后将自动拉取命令清单。'}
           </div>
-        ) : grouped.length === 0 ? (
+        ) : grouped.length === 0 && !commandsLoading ? (
           <div className="text-ink3 text-xs py-10 text-center">无匹配「{keyword}」的命令。</div>
         ) : (
           grouped.map(([category, cmds]) => (

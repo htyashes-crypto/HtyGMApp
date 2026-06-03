@@ -12,7 +12,10 @@ interface CommandRowProps {
 export function CommandRow({ command, canExecute, onExecute }: CommandRowProps): JSX.Element {
   const [values, setValues] = useState<Record<string, string>>(() => {
     const init: Record<string, string> = {}
-    for (const p of command.parameters) init[p.name] = p.defaultValue ?? defaultForType(p.type)
+    for (const p of command.parameters) {
+      // Enum 无默认值时回退首个选项（保证下拉有合法选中值，避免映射整数时回传空串导致 int.Parse 失败）
+      init[p.name] = p.defaultValue ?? (p.type === 'Enum' ? (p.enumOptions?.[0] ?? '') : defaultForType(p.type))
+    }
     return init
   })
 
@@ -23,7 +26,8 @@ export function CommandRow({ command, canExecute, onExecute }: CommandRowProps):
   const handleExecute = (): void => {
     const args: GmArgValue[] = command.parameters.map((p) => ({
       name: p.name,
-      type: p.type,
+      // 枚举映射整数时按 Int 回传，服务端走 int.Parse 执行（操作是枚举、执行是整数）
+      type: p.type === 'Enum' && p.enumAsInt ? 'Int' : p.type,
       value: values[p.name] ?? ''
     }))
     onExecute(command.commandId, args)

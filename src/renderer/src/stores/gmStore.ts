@@ -16,7 +16,17 @@ interface GmStore {
   executionLogs: ExecutionLog[]
   searchKeyword: string
   logVisible: boolean
+  // 命令清单分帧加载进度（命令多时服务端流式 begin→chunk→end，避免首屏卡顿）
+  loadTotal: number
+  loadReceived: number
+  commandsLoading: boolean
   setCommands: (commands: GmCommandMeta[]) => void
+  /** 分帧加载开始：清空旧命令、记总数、标记加载中。 */
+  beginCommandLoad: (total: number) => void
+  /** 分帧加载：追加一批命令并推进已收数。 */
+  appendCommands: (batch: GmCommandMeta[]) => void
+  /** 分帧加载结束：标记完成。 */
+  endCommandLoad: () => void
   addLog: (log: Omit<ExecutionLog, 'id'>) => void
   clearLogs: () => void
   setSearch: (keyword: string) => void
@@ -32,7 +42,14 @@ export const useGmStore = create<GmStore>((set, get) => ({
   executionLogs: [],
   searchKeyword: '',
   logVisible: true,
-  setCommands: (commands) => set({ commands }),
+  loadTotal: 0,
+  loadReceived: 0,
+  commandsLoading: false,
+  setCommands: (commands) => set({ commands, commandsLoading: false, loadTotal: 0, loadReceived: 0 }),
+  beginCommandLoad: (total) => set({ commands: [], loadTotal: total, loadReceived: 0, commandsLoading: true }),
+  appendCommands: (batch) =>
+    set((s) => ({ commands: [...s.commands, ...batch], loadReceived: s.loadReceived + batch.length })),
+  endCommandLoad: () => set({ commandsLoading: false }),
   addLog: (log) =>
     set((s) => ({ executionLogs: [{ id: m_logSeq++, ...log }, ...s.executionLogs] })),
   clearLogs: () => set({ executionLogs: [] }),

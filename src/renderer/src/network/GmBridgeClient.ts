@@ -4,6 +4,9 @@ import {
   MsgType,
   AuthResultData,
   CommandListData,
+  CommandListBeginData,
+  CommandListChunkData,
+  GmCommandMeta,
   GmCommandResult,
   GmArgValue,
   HeartbeatData,
@@ -15,6 +18,9 @@ export interface GmBridgeClientHandlers {
   onStateChange?: (state: 'connecting' | 'authenticating' | 'ready' | 'closed' | 'failed') => void
   onAuthResult?: (data: AuthResultData) => void
   onCommandList?: (data: CommandListData) => void
+  onCommandListBegin?: (total: number) => void
+  onCommandListChunk?: (commands: GmCommandMeta[]) => void
+  onCommandListEnd?: () => void
   onCommandResult?: (data: GmCommandResult) => void
   onError?: (data: ErrorData) => void
   onPongLatencyMs?: (latency: number) => void
@@ -174,6 +180,15 @@ export class GmBridgeClient {
       }
       case MsgType.CommandList:
         this.m_handlers.onCommandList?.(envelope.data as CommandListData)
+        break
+      case MsgType.CommandListBegin:
+        this.m_handlers.onCommandListBegin?.((envelope.data as CommandListBeginData)?.total ?? 0)
+        break
+      case MsgType.CommandListChunk:
+        this.m_handlers.onCommandListChunk?.((envelope.data as CommandListChunkData)?.commands ?? [])
+        break
+      case MsgType.CommandListEnd:
+        this.m_handlers.onCommandListEnd?.()
         break
       case MsgType.CommandResult:
         this.m_handlers.onCommandResult?.(envelope.data as GmCommandResult)

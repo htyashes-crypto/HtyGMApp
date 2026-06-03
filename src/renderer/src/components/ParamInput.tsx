@@ -1,4 +1,5 @@
 import type { GmParameterMeta } from '../network/GmBridgeProtocol'
+import { SearchableSelect, type SelectOption } from './SearchableSelect'
 
 interface ParamInputProps {
   meta: GmParameterMeta
@@ -59,20 +60,14 @@ function renderControl(
         </button>
       )
     }
-    case 'Enum':
-      return (
-        <select
-          className="gm-field min-w-[96px]"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-        >
-          {(meta.enumOptions ?? []).map((opt, i) => (
-            <option key={opt} value={opt}>
-              {meta.enumDisplayNames?.[i] || opt}
-            </option>
-          ))}
-        </select>
-      )
+    case 'Enum': {
+      // 可搜索下拉:value=实际执行值,label=显示名(无则回退实际值);映射整数时 label=关闭/开启、value=0/1
+      const options: SelectOption[] = (meta.enumOptions ?? []).map((opt, i) => ({
+        value: opt,
+        label: meta.enumDisplayNames?.[i] || opt
+      }))
+      return <SearchableSelect value={value} options={options} onChange={onChange} minWidth={150} />
+    }
     case 'String':
     default:
       return (

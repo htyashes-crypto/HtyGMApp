@@ -68,6 +68,18 @@ npm run release          # 构建并发布到 GitHub Releases(触发自动更新
 
 各 App 端口与 Discovery 目录独立,可同时运行。
 
+## 让其他项目接入 GMApp（任意语言/引擎）
+
+GMApp 是通用客户端——任何程序只要实现「GM 桥服务端」契约（Discovery 文件 + WebSocket 协议），即可被 GMApp 自动发现并远程执行命令，**无需依赖 ActFramework**。
+
+提供了一个 **Claude Code Skill** 让接入零门槛：
+
+1. 把本仓库 `skills/gmapp-server-integration/` 整个目录拷到你项目的 `.claude/skills/`（或用户级 `~/.claude/skills/`）
+2. 对 Claude Code 说「接入 GMApp」/「实现 GM 桥服务端」
+3. Claude 据 skill 在你的项目里实现 Discovery + WebSocket + 协议，并把你的 GM 操作映射为可执行命令（Node/Python/Go/C#/Unity 等均可）
+
+完整协议规范（亦可手动据此实现）见 [skills/gmapp-server-integration/SKILL.md](skills/gmapp-server-integration/SKILL.md)。
+
 ## 工程结构
 
 ```

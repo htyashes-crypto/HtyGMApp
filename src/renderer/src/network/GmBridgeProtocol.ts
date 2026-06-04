@@ -38,6 +38,8 @@ export interface GmParameterMeta {
   enumDisplayNames?: string[]
   /** 枚举是否映射为整数：true 时仍下拉选择，但回传 args[].type 用 'Int'（enumOptions 为整数字符串），由服务端按整数执行。 */
   enumAsInt?: boolean
+  /** 与 enumOptions 一一对齐的图标 base64 PNG（无图标项为 null/空），可空；非空时下拉显示「图标 - 名称」。 */
+  enumIconsBase64?: string[]
   defaultValue?: string
 }
 

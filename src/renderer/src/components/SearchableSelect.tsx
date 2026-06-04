@@ -4,6 +4,8 @@ import { createPortal } from 'react-dom'
 export interface SelectOption {
   value: string
   label: string
+  /** 选项图标 base64 PNG（可空）；非空时显示「图标 - 名称」。 */
+  icon?: string
 }
 
 interface SearchableSelectProps {
@@ -17,6 +19,7 @@ interface SearchableSelectProps {
 /**
  * 可搜索下拉:触发按钮 + portal 浮层(搜索框 + 选项列表)。
  * 深色主题、宽度大气、支持键盘 ↑↓ + Enter + Esc、点击外部/滚动自动关闭。
+ * 选项可带图标(base64 PNG),显示「图标 - 名称」。
  * 浮层经 createPortal 渲染到 body,不被命令列表的 overflow 裁剪;近视口底自动向上展开。
  */
 export function SearchableSelect({
@@ -135,7 +138,16 @@ export function SearchableSelect({
         className="gm-field flex items-center justify-between gap-2 text-left"
         style={{ minWidth }}
       >
-        <span className={`truncate ${display ? 'text-ink1' : 'text-ink3'}`}>{display || placeholder}</span>
+        <span className="flex items-center gap-1.5 min-w-0">
+          {selected?.icon && (
+            <img
+              src={`data:image/png;base64,${selected.icon}`}
+              alt=""
+              className="w-4 h-4 object-contain shrink-0"
+            />
+          )}
+          <span className={`truncate ${display ? 'text-ink1' : 'text-ink3'}`}>{display || placeholder}</span>
+        </span>
         <svg width="10" height="10" viewBox="0 0 10 10" className="shrink-0" style={{ color: 'rgb(var(--c-ink3))' }}>
           <path d="M2 3.5 L5 6.5 L8 3.5" stroke="currentColor" strokeWidth="1.4" fill="none" />
         </svg>
@@ -199,6 +211,13 @@ export function SearchableSelect({
                             </svg>
                           )}
                         </span>
+                        {o.icon && (
+                          <img
+                            src={`data:image/png;base64,${o.icon}`}
+                            alt=""
+                            className="w-[18px] h-[18px] object-contain shrink-0"
+                          />
+                        )}
                         <span className="truncate">{o.label}</span>
                       </span>
                       {o.label !== o.value && (

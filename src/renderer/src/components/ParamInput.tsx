@@ -61,10 +61,11 @@ function renderControl(
       )
     }
     case 'Enum': {
-      // 可搜索下拉:value=实际执行值,label=显示名(无则回退实际值);映射整数时 label=关闭/开启、value=0/1
+      // 可搜索下拉:value=实际执行值,label=显示名(无则回退实际值),icon=枚举图标 base64(可空);映射整数时 label=关闭/开启、value=0/1
       const options: SelectOption[] = (meta.enumOptions ?? []).map((opt, i) => ({
         value: opt,
-        label: meta.enumDisplayNames?.[i] || opt
+        label: meta.enumDisplayNames?.[i] || opt,
+        icon: meta.enumIconsBase64?.[i] || undefined
       }))
       return <SearchableSelect value={value} options={options} onChange={onChange} minWidth={150} />
     }
